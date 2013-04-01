@@ -1,12 +1,19 @@
 source 'https://rubygems.org'
+#source 'http://dev-utility-lx07'
 
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+#
+#
+# Oracle
 gem 'ruby-oci8'
 gem 'activerecord-oracle_enhanced-adapter', '~> 1.4.0'
+
+
+# Error Notification
+gem 'hoptoad_notifier'
 
 
 # Gems used only for assets and not required
@@ -20,6 +27,23 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+group :development, :test do
+  gem 'debugger'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'rspec-rails'
+  gem 'simplecov', :require => false
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers'
+  gem 'fuubar'
+  gem 'thin'
+  gem 'shoulda-matchers'
+  gem 'database_cleaner'
+  gem 'forgery'
+end
+
+gem 'capistrano'
 
 gem 'jquery-rails'
 
