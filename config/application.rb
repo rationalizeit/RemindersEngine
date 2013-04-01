@@ -1,12 +1,14 @@
 require File.expand_path('../boot', __FILE__)
 
+ENV['NLS_LANG'] = 'AMERICAN_AMERICA.UTF8'
+
 require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  #Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+   Bundler.require(:default, :assets, Rails.env)
 end
 
 module RemindersEngine
@@ -16,7 +18,7 @@ module RemindersEngine
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+     config.autoload_paths += %W(#{config.root}/lib/**/*)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -27,7 +29,8 @@ module RemindersEngine
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
+     config.time_zone = 'Eastern Time (US & Canada)'
+     config.active_record.default_timezone = :local #EST
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -58,5 +61,13 @@ module RemindersEngine
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Default Test Generators
+
+    config.generators do |g|
+      g.test_framework :rspec
+      g.fixture_replacement :factory_girl
+      g.stylesheets false
+    end
   end
 end
