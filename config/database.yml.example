@@ -1,0 +1,29 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+common: &common
+  adapter: oracle_enhanced
+  database: dev
+  password: rails
+  host: oracleserver
+  port: 1521
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *common
+  username: reminders_engine_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *common
+  username: reminders_engine_testing
+
+production:
+  <<: *common
+  username: reminders_engine_development
