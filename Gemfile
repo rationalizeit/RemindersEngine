@@ -41,6 +41,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'database_cleaner'
   gem 'forgery'
+  gem 'railroady'
+  gem 'brakeman'
 end
 
 gem 'capistrano'

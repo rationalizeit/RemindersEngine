@@ -10,11 +10,11 @@ Forgery::Personal.class_eval do
 
   #TODO need to get real values for these two below
   def self.career_title
-    %w[Associate Manager Supervisor "Project Manager"].first
+    ["Associate" "Manager" "Supervisor" "Project Manager"].sample
   end
 
   def self.person_status
-     %w[Active Inactive "Not Found"].first
+    ["Active" "Inactive" "Not Found" "Alumni"].sample
   end
   
   def self.fmno

@@ -9,7 +9,7 @@ describe Person do
   context "look ups" do
     before :all do
       FactoryGirl.create(:person)
-      FactoryGirl.create(:person, :person_status => 'Alumni')
+      FactoryGirl.create(:person)
     end
 
     it "should correctly return a list of people" do

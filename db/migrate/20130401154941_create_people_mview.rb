@@ -1,6 +1,6 @@
 class CreatePeopleMview < ActiveRecord::Migration
   def up
-    if %w[test development].include? Rails.env
+    if Rails.env.test?
       drop_table :people rescue nil
 
       create_table :people, :force => true do |t|
@@ -11,6 +11,7 @@ class CreatePeopleMview < ActiveRecord::Migration
         t.string  :preferred_name
         t.string  :last_name
         t.string  :full_name
+        t.string  :full_name_lower
         t.string  :ads_login_name
         t.string  :person_status
         t.string  :email
@@ -44,8 +45,8 @@ class CreatePeopleMview < ActiveRecord::Migration
              FROM ors.psn_person@reminders_ors.world pp, ors.psn_email@reminders_ors.world pe, ors.psn_off_career_job_type_dept@reminders_ors.world o, ors.pik_location@reminders_ors.world l
             WHERE     pp.accounting_fmno_flag = 'N'
                   AND PP.vendor_individual_id IS NOT NULL
-                  AND  pe.person_id = pp.person_id
-                  AND pe.email_type = 'LN_Internet'
+                  AND  pe.person_id(+) = pp.person_id
+                  AND pe.email_type(+) = 'LN_Internet'
                   AND pp.person_id = o.person_id
                   AND o.location_location_code = l.location_code )
           UNION ALL
@@ -66,8 +67,8 @@ class CreatePeopleMview < ActiveRecord::Migration
                   co.contractor_title
              FROM ors.con_contractor@reminders_ors.world cc, ors.con_location_dept@reminders_ors.world co, ors.con_email@reminders_ors.world ce, ors.pik_location@reminders_ors.world l
             WHERE     cc.contractor_id = co.contractor_id
-                  AND ce.contractor_id = cc.contractor_id
-                  AND ce.email_type = 'LN_Internet'
+                  AND ce.contractor_id(+) = cc.contractor_id
+                  AND ce.email_type(+) = 'LN_Internet'
                   AND co.goc_location_code = l.location_code )  "
 
       add_index :people, [:id], :name => "people_id_idx", :tablespace => "reminders_idx", :unique => true
@@ -75,14 +76,16 @@ class CreatePeopleMview < ActiveRecord::Migration
       add_index :people, [:vendor_id], :name => "people_vendor_idx", :tablespace => "reminders_idx", :unique => true
       add_index :people, [:email], :name => "people_email_idx", :tablespace => "reminders_idx"
       add_index :people, [:full_name_lower], :name => "people_fullname_lower_idx", :tablespace => "reminders_idx"
+      add_index :people, [:person_status], :name => "people_status_idx", :tablespace => "reminders_idx"
     end
   end
 
   def down
-    if RAILS_ENV.to_s.upcase.include?("TEST")
+    if Rails.env.test?
       drop_table :people rescue nil
     else
       execute "DROP MATERIALIZED VIEW PEOPLE" rescue nil
     end
   end
 end
+
